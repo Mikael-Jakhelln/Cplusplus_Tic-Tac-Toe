@@ -38,6 +38,7 @@ namespace tictactoe{
 			else
 			{
 				playerpiece = ' '; // this is not supposed to happen, so init to blank.
+				cout<< "DEBUG: playernumber isnt 0 or 2" << endl;
 			}
 		}
 		

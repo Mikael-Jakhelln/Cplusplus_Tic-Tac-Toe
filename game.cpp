@@ -102,8 +102,6 @@ namespace tictactoe{
 		public:
 		game()
 		{	
-			wait();
-		
 			//game runs in here, runs while anyonewonyet returns 0, also lets the controlling entity choose to play again
 			
 			//first choose gameboard size
@@ -118,6 +116,7 @@ namespace tictactoe{
 			
 			//initialize gameboard, and make objects for players
 			gameboard board = gameboard(size); //this is the gameboard, initialized to the chosen size.
+			board.reset();
 			score score1 = score(); //check score with this with 
 			player * player1;//two players, will be initialized once the almighty user has chosen number of human players
 			player * player2;
@@ -125,9 +124,9 @@ namespace tictactoe{
 			//choose who to start
 			srand(time(NULL));//seed random from system time
 			int whostarts = (rand() %2)+1; //pick random number between 1 and 2
-			cout << "DEBUG: whostarts:" << whostarts << endl;
+			cout << "Whostarts: Player" << whostarts << endl;
 			
-			int humans = 0;
+			int humans = 0; //initializes humans to 0 by default
 			cout << "Choose number of humans players: ";
 			humans = intinput();
 			while(humans >2 || humans < 0)
@@ -164,11 +163,15 @@ namespace tictactoe{
 				{
 					player1 = new human(1, true); //human(players piece = X, ishuman = true)
 					player2 = new bot(2, false); //bot(players piece = O, ishuman = false)
+					cout << "set difficulty for bot " << player1->getplayerpiece() << ":";
+					bool p2diff = player2->setdifficulty(intinput());
 				}
 				else //human is player O
 				{
 					player1 = new human(2, true); //human(players piece = X, ishuman = true)
 					player2 = new bot(1, false); //bot(players piece = O, ishuman = false)
+					cout << "set difficulty for bot " << player2->getplayerpiece() << ":";
+					bool p2diff = player2->setdifficulty(intinput());
 				}
 				//ask user for bot difficulty
 				
@@ -203,7 +206,7 @@ namespace tictactoe{
 			z = player2->getdifficulty();
 			cout << "player2: playernumber,playerpiece,difficulty: " << x << ",["<< y << "]," << z << endl;
 			
-			wait();
+			wait();	//might wait here
 			
 			//the actual game loop stuff starts here, sorry
 			board.printboard();
@@ -215,31 +218,24 @@ namespace tictactoe{
 				cout << "player X, make a move!" << endl;
 				while(Xmove != true)
 				{
+					player * thisplayer;
 					vector<int> coords(2); coords[0] = size+1; coords[1] = size+1; //temp vector for return values of player
 					//initd to something outside the gameboard, so it definately wont work
 					if(player1->getplayernumber() == 1)
 					{
-						coords = player1->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(player1->getplayerpiece(), coords[0], coords[1]);
-						
-						if(player1->ishuman())
-						{
-							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
-						}
+						thisplayer = player1;
+						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
+						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						Xmove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
-						coords = player2->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player2.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(player2->getplayerpiece(), coords[0], coords[1]);
-						
-						if(player2->ishuman())
-						{
-							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
-						}
+						thisplayer = player1;
+						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
+						cout << "DEBUG: game(): player2: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						Xmove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
 					}
-					if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl; //the bot doesnt need to see this
+					if(Xmove == false) cout << "DEBUG: game: Xmove == false" << endl; //the bot doesnt need to see this
 				}
 				//end of playerX's turn
 				
@@ -253,29 +249,23 @@ namespace tictactoe{
 				bool Omove = false;
 				while(Omove != true)
 				{
+					player * thisplayer;
 					vector<int> coords(2); coords[0] = size+1; coords[1] = size+1; //initialized to something outside the gameboard..	
 					if(player1->getplayernumber() == 2)
 					{
-						coords = player1->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(player1->getplayerpiece(), coords[0], coords[1]);
-						
-						if(player1->ishuman())
-						{
-							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
-						}
+						thisplayer = player1;
+						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
+						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						Omove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
-						coords = player2->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(player2->getplayerpiece(), coords[0], coords[1]);
-						
-						if(player2->ishuman())
-						{
-							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
-						}
+						thisplayer = player1;
+						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
+						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						Omove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
 					}
+					if(Omove == false) cout << "DEBUG: game: Omove == false" << endl; //the bot doesnt need to see this
 				}
 				//end of playerO's turn
 				wait(); //might wait here

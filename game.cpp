@@ -131,8 +131,8 @@ namespace tictactoe{
 			//initialize gameboard, and make objects for players
 			gameboard board = gameboard(size); //this is the gameboard, initialized to the chosen size.
 			score score1 = score(); //check score with this with 
-			player * player1 = new human(1, true);//two players, will be initialized once the almighty user has chosen number of human players
-			player * player2 = new human(2, true);
+			player * player1;//two players, will be initialized once the almighty user has chosen number of human players
+			player * player2;
 			
 			//choose who to start
 			srand(time(NULL));//seed random from system time
@@ -149,38 +149,39 @@ namespace tictactoe{
 			}
 			cout << "Human players: " << humans << endl;
 			//init players
-			/*
+			
 			if(humans == 0) //two bots, MACHINE SHOWDOWN FTW!
 			{
 				willwait = true;	//wait between turns
 				if(whostarts == 1)	//player 1 starts
 				{
-					player1 = bot(1, false); //bot(players piece = X, ishuman = false)
-					player2 = bot(2, false); //bot(players piece = O, ishuman = false)
+					player1 = new bot(1, false); //bot(players piece = X, ishuman = false)
+					player2 = new bot(2, false); //bot(players piece = O, ishuman = false)
 				}
 				else
 				{
-					player1 = bot(2, false); //bot(players piece = X, ishuman = false)
-					player2 = bot(1, false); //bot(players piece = O, ishuman = false)
+					
+					player1 = new bot(2, false); //bot(players piece = X, ishuman = false)
+					player2 = new bot(1, false); //bot(players piece = O, ishuman = false)
 				}
 				//ask user for bot difficulty
-				cout << "set difficulty for bot " << player1.getplayerpiece() << ":";
-				player1.setdifficulty(intinput());
-				cout << "set difficulty for bot " << player2.getplayerpiece() << ":";
-				player2.setdifficulty(intinput());
+				cout << "set difficulty for bot " << player1->getplayerpiece() << ":";
+				bool p1diff = player1->setdifficulty(intinput());
+				cout << "set difficulty for bot " << player2->getplayerpiece() << ":";
+				bool p2diff = player2->setdifficulty(intinput());
 			}
 			else if(humans == 1)
 			{
 				willwait = false;	//dont wait between turns
 				if(whostarts == 1)//human starts as player X
 				{
-					player1 = human(1, true); //human(players piece = X, ishuman = true)
-					player2 = bot(2, false); //bot(players piece = O, ishuman = false)
+					player1 = new human(1, true); //human(players piece = X, ishuman = true)
+					player2 = new bot(2, false); //bot(players piece = O, ishuman = false)
 				}
 				else //human is player O
 				{
-					player1 = human(2, true); //human(players piece = X, ishuman = true)
-					player2 = bot(1, false); //bot(players piece = O, ishuman = false)
+					player1 = new human(2, true); //human(players piece = X, ishuman = true)
+					player2 = new bot(1, false); //bot(players piece = O, ishuman = false)
 				}
 				//ask user for bot difficulty
 				
@@ -190,13 +191,13 @@ namespace tictactoe{
 				willwait = false;	//dont wait for humans
 				if(whostarts == 1)
 				{
-					player1 = human(1, true); //two Humans
-					player2 = human(2, true); //human(players piece = X, ishuman = true)
+					player1 = new human(1, true); //two Humans
+					player2 = new human(2, true); //human(players piece = X, ishuman = true)
 				}
 				else
 				{
-					player1 = human(2, true); //two Humans
-					player2 = human(1, true); //human(players piece = X, ishuman = true)
+					player1 = new human(2, true); //two Humans
+					player2 = new human(1, true); //human(players piece = X, ishuman = true)
 				}
 			}
 			else	//somehow humans are fucked up
@@ -205,7 +206,7 @@ namespace tictactoe{
 				exit(EXIT_FAILURE);	//exits program
 				
 			}
-			*/
+			
 			//prints out who starts
 			int  x = player1->getplayernumber();
 			char y = player1->getplayerpiece();
@@ -226,7 +227,7 @@ namespace tictactoe{
 			{
 				//the starting player's turn
 				bool Xmove = false;
-				cout << "Player X, make a move!" << endl;
+				cout << "player X, make a move!" << endl;
 				while(Xmove != true)
 				{
 					vector<int> coords(2); coords[0] = size+1; coords[1] = size+1; //temp vector for return values of player

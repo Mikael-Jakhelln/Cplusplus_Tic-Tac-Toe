@@ -41,7 +41,7 @@ namespace tictactoe{
 			}
 		}
 		
-		bool ishuman() //used to see if this player is a human, or not.
+		bool ishuman() //used to see if this player is a human, wish i knew how to isinstanceof(human) :/
 		{
 			return human;
 		}

@@ -116,7 +116,6 @@ namespace tictactoe{
 			
 			//initialize gameboard, and make objects for players
 			gameboard board = gameboard(size); //this is the gameboard, initialized to the chosen size.
-			board.reset();
 			score score1 = score(); //check score with this with 
 			player * player1;//two players, will be initialized once the almighty user has chosen number of human players
 			player * player2;
@@ -226,14 +225,14 @@ namespace tictactoe{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player2: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
-						Xmove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					if(Xmove == false) cout << "DEBUG: game: Xmove == false" << endl; //the bot doesnt need to see this
 				}
@@ -256,14 +255,14 @@ namespace tictactoe{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
-						Omove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
+						Omove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
-						Omove = board.makemove(thisplayer->getplayerpiece(), coords[0], coords[1]);
+						Omove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					if(Omove == false) cout << "DEBUG: game: Omove == false" << endl; //the bot doesnt need to see this
 				}

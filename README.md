@@ -32,11 +32,11 @@ Følgende gjelder:
 
 ###Ferdig:
 
-	- Gameboard, scaler fint uansett størrelse. har testet med 100x100.
-	- Score, virker som det fungerer fint, har testet med 20x20. 
-	- Human vs Human, funker
-	- Human vs Bot, funker
-	- Bot vs Bot, funker
+- Gameboard, scaler fint uansett størrelse. har testet med 100x100.
+- Score, virker som det fungerer fint, har testet med 20x20. 
+- Human vs Human, funker
+- Human vs Bot, funker
+- Bot vs Bot, funker
 
 ###To-Do:
 

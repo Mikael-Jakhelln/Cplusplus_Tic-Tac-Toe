@@ -3,7 +3,7 @@ C++-Oblig2_Tic-Tac-Toe
 
 
 ###Oppgavetekst:
-# 1. *N-på-rad*, fritt frem
+#### 1. *N-på-rad*, fritt frem
 Denne oppgaven passer for de som ønsker mer vekt på algoritmiske problemstillinger. Her skal du implementere en generalisert versjon av 3-på-rad (bondesjakk, tic-tac-toe), over terminal - menneske mot maskin. Den klassiske varianten er slik:
 
 1. Det er to spillere, og et spillbrett på 3 x 3 ruter

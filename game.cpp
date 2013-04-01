@@ -100,7 +100,7 @@ namespace tictactoe{
 		public:
 		game()
 		{
-		/*
+		
 			//game runs in here, runs while anyonewonyet returns 0, also lets the controlling entity choose to play again
 			
 			//first choose gameboard size

@@ -1,8 +1,7 @@
 C++-Oblig2_Tic-Tac-Toe
 ======================
 
-A game of tictactoe, where the user chooses boardsize(from 3 and up to n). Game modes are, Human vs Human, Human vs Bot, Bot vs Bot.
-
+Oppgavetekst:
 ### 1. *N-på-rad*, fritt frem
 Denne oppgaven passer for de som ønsker mer vekt på algoritmiske problemstillinger. Her skal du implementere en generalisert versjon av 3-på-rad (bondesjakk, tic-tac-toe), over terminal - menneske mot maskin. Den klassiske varianten er slik:
 
@@ -29,3 +28,5 @@ Følgende gjelder:
 - En nødløsning for deg som sliter: Implementer først 3 og så 4 på rad i denne oppgaven, så har du noe å levere…
 
 - Ekstra (frivillig) utfordring: lag programmet ditt slik at du kan sette maskinen til å spille mot seg selv - eller til å spille mot en annens strategi, og la det være mulig å vise spillet i sakte film i terminalen, slik at man som bruker kan følge med. Sett gjerne ditt program til å spille mot en medstudent sitt - da må dere bli enige om en api. OBS: Dersom du gjør dette, si fra!
+
+###To-Do:

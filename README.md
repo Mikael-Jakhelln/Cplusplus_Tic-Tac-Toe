@@ -1,8 +1,9 @@
 C++-Oblig2_Tic-Tac-Toe
 ======================
 
-Oppgavetekst:
-### 1. *N-på-rad*, fritt frem
+
+###Oppgavetekst:
+# 1. *N-på-rad*, fritt frem
 Denne oppgaven passer for de som ønsker mer vekt på algoritmiske problemstillinger. Her skal du implementere en generalisert versjon av 3-på-rad (bondesjakk, tic-tac-toe), over terminal - menneske mot maskin. Den klassiske varianten er slik:
 
 1. Det er to spillere, og et spillbrett på 3 x 3 ruter
@@ -29,7 +30,8 @@ Følgende gjelder:
 
 - Ekstra (frivillig) utfordring: lag programmet ditt slik at du kan sette maskinen til å spille mot seg selv - eller til å spille mot en annens strategi, og la det være mulig å vise spillet i sakte film i terminalen, slik at man som bruker kan følge med. Sett gjerne ditt program til å spille mot en medstudent sitt - da må dere bli enige om en api. OBS: Dersom du gjør dette, si fra!
 
-###Ferdig
+###Ferdig:
+
 	- Gameboard, scaler fint uansett størrelse. har testet med 100x100.
 	- Score, virker som det fungerer fint, har testet med 20x20. 
 	- Human vs Human, funker

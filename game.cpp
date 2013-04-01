@@ -210,7 +210,7 @@ namespace tictactoe{
 			int gameover = 0;	//used to check the gamestate, at the start of the game, nobody has won yet.
 			while(gameover == 0)
 			{
-				//the starting player's turn
+				//the starting player X's turn
 				bool Xmove = false;
 				cout << "player X, make a move!" << endl;
 				while(Xmove != true)

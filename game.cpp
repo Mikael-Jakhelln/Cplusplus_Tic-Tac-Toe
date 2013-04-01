@@ -18,84 +18,74 @@ namespace tictactoe{
 		private:
 		bool willwait;	//used to check if it should wait for user keypress, when playing bot vs bot
 		
+		/* // old intinput
 		int intinput() //gets an int from the user
 		{
 			int x;
 			cin >> x;
 			return x;
 		}
+		*/
 		
-		int intinput2()
+		int intinput()
 		{
 			//better inputmethod, almost done
-			/*
-			char *input;
-			cin >> input;
+			int returnint = 0;
+			int intmax =  2147483647;
+			
 			bool isint = false;
-			int inputcount = 0; //counts how many characters it is.
-			//couldnt find an easy way to parse this, so.. here we go..
-			int maxinputlength = 10;//max number of digits in an int
-			char inputarray[maxinputlength];
-			int intmax = 2147483647; //max value of int32
-			int c = 0;
-			inputcount = 0;
-			inputarray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-			while(*input) //loop through all chars in the input
+			char input[10];	//get input into array
+			cin >> input;
+			int inputcount = 0;
+			for(int i = 0; i<10; i++) //loop trough array
 			{
-				if(!isdigit(*input))//char isnt a digit
-				{	
+				
+				if(!isdigit(input[i]))//char isnt a digit
+				{
 					break;	//if a character in input isnt a digit
 				}
 				else	//char is a digit
 				{	
 					isint = true;
-					input++;	//check next char in input
-					inputarray[inputcount-1] = *input;
 				}
 				inputcount++;
 			}
-			for(int i = 0; i< maxinputlength; i++)
+			
+			
+			while(isint != true) //input isn't an int, ask user to type it in again
 			{
-				cout << "DEBUG: character " << i << ":" << inputarray[i] << endl;
-			}
-			while(isint != true || inputcount > maxinputlength) //input isn't an int, ask user to type it in again
-			{
-				cout << "That isn't a number! (or its too big) type in a valid number: ";
+				cout << "thats not a number, try again:";
 				cin >> input;
-				inputcount = 0;
-				inputarray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-				while(*input) //loop through all chars in the input
+				for(int i = 0; i<10; i++)
 				{
-					if(!isdigit(*input))//char isnt a digit
+					if(!isdigit(input[i]))//char isnt a digit
 					{	
 						break;	//if a character in input isnt a digit
 					}
 					else	//char is a digit
 					{	
 						isint = true;
-						input++;	//check next char in input
-						inputarray[inputcount-1] = *input;
 					}
 					inputcount++;
 				}
-			}
-			for(int i = 0; i< maxinputlength; i++)
-			{
-				cout << "DEBUG: character " << i << ":" << inputarray[i] << endl;
 			}
 			if(isint == false)	//if it still isnt an int, just exit
 			{
 				cout << "YOU BROKE SOMETHING! terminating program" << endl;
 				exit(EXIT_FAILURE);
 			}
-			cout << "DEBUG: charactercount: "<<inputcount << endl;
-			for(int i = 0; i< maxinputlength; i++)
+			returnint = atoi(input);
+			while(returnint > intmax || returnint < 0)
 			{
-				cout << "DEBUG: character " << i << ":" << inputarray[i] << endl;
+				cout <<"that number is way to big! try again:";
+				returnint = intinput();
 			}
-			
-			return atoi(inputarray);
-			*/
+			while(returnint > intmax || returnint < 0)
+			{
+				cout <<"the number is too small! try again:";
+				returnint = intinput();
+			}
+			return returnint;
 		}
 		
 		void wait()	//used so the user can follow bot vs bot games
@@ -110,12 +100,7 @@ namespace tictactoe{
 		public:
 		game()
 		{
-			/*
-			cout << "type number:";
-			int x = intinput();
-			cout << "DEBUG: x = " << x << endl;
-			*/
-		
+		/*
 			//game runs in here, runs while anyonewonyet returns 0, also lets the controlling entity choose to play again
 			
 			//first choose gameboard size

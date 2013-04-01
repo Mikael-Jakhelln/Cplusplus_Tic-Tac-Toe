@@ -12,17 +12,19 @@ namespace tictactoe{
 		private:
 		int playernumber; //playernumber, used to find who goes first in a turn.
 		char playerpiece; //this players piece, player1.playerpiece = 'X', player2.playerpiece='O'.
+		bool human;
 		
 		//abstract class player, can be both human and bot, maybe even a networked human?
 		public:
-		player() //just used post initialization
+		player() //used so im able to create object post initialization
 		{
 			//do nothing
 		}
 		
-		player(int pn) //constructor, used to initialize playernumber and playerpiece
+		player(int pn, bool humanornot) //constructor, used to initialize playernumber and playerpiece, and also if this player is human
 		{
 			playernumber = pn;
+			human = humanornot;
 			if(playernumber == 1)
 			{
 				playerpiece = 'X';
@@ -36,6 +38,21 @@ namespace tictactoe{
 				playerpiece = ' '; // this is not supposed to happen, so init to blank.
 			}
 		}
+		
+		bool ishuman() //used to see if this player is a human, or not.
+		{
+			return human;
+		}
+		
+		bool setdifficulty(int diff) //set difficulty for this player
+		{
+			return false;
+		}
+		int getdifficulty() //returns difficulty
+		{
+			return -1;
+		}
+		
 		int getplayernumber()	//returns playernumber
 		{
 			return playernumber;
@@ -45,7 +62,7 @@ namespace tictactoe{
 			return playerpiece;
 		}
 		
-		virtual vector<int> getcoords(int, vector< vector<char> >)//is overridden by children classes. returns  two coordinates
+		vector<int> getcoords(int, vector< vector<char> >)//is overridden by children classes. returns  two coordinates
 		{
 			vector<int> c(2);
 			c[0] = -1;
@@ -63,8 +80,8 @@ namespace tictactoe{
 	class test : public virtual player
 	{
 		public:
-		test(int pn) 
-		: player(pn)
+		test(int pn, bool humanornot) 
+		: player(pn, humanornot)
 		{
 			//nothing else to do here..
 		}

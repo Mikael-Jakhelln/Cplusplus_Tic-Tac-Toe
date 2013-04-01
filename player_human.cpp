@@ -20,10 +20,10 @@ namespace tictactoe{
 		}
 		
 		public:
-		human(int pn) 
-		: player(pn)
+		human(int pn, bool humanornot) 
+		: player(pn, humanornot)
 		{
-			//nothing else to do here..
+			//nothing to do here..
 		}
 		
 		vector<int> getcoords(int size, vector< vector<char> >)

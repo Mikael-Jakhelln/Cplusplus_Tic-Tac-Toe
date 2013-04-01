@@ -14,13 +14,15 @@ namespace tictactoe{
 	{
 		private: 
 		int difficulty;	//to set bot difficulty
+		static const int defaultdifficulty = 1;	//default difficulty to initialize to
+		static const int numberofdifficulties = 2; //the number if implemented difficulties, 1 is the easiest, 2 is harder, and so on.
 		char opponentpiece;	//the opponents piece.
 		
 		public:
-		bot(int pn) 
-		: player(pn)
+		bot(int pn, bool humanornot) 
+		: player(pn, humanornot)
 		{
-			difficulty = 0; //default difficulty is set to easy
+			difficulty = defaultdifficulty; //default difficulty is set to easy
 			if(getplayerpiece() == 'X')
 				opponentpiece = 'O';
 			if(getplayerpiece() == 'O')
@@ -28,12 +30,14 @@ namespace tictactoe{
 			srand(time(NULL));	//seed random, so it doesnt give the same values every time
 		}
 		
-		void setdifficulty(int diff) //set difficulty for this bot
+		bool setdifficulty(int diff) //set difficulty for this bot
 		{
 			difficulty = diff;
 		}
 		int getdifficulty() //returns difficulty
-		{	return difficulty; }
+		{
+			return difficulty; 
+		}
 		
 		
 		vector<int> getcoords(int size, vector< vector<char> > board)

@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>	//is this the same as stdlib?
-#include <ctime>//for random
+#include <ctime>//for random and wait
 
 using namespace std;
 namespace tictactoe{
@@ -88,18 +88,21 @@ namespace tictactoe{
 			return returnint;
 		}
 		
-		void wait()	//used so the user can follow bot vs bot games
+		void wait()	//waiting for 1 second, so the user can follow bot vs bot games
 		{
 			if(willwait = true) //waits only if willwait is true
 			{
-				cout <<"USER! press any key to continue!"<<endl<<endl;
-				cin.ignore(1);
+				cout <<"waiting so the USER! can see whats happening!"<<endl<<endl;
+				clock_t temp;
+				temp = clock () + 1 * CLOCKS_PER_SEC ;
+				while (clock() < temp) {}
 			}
 		}
 		
 		public:
 		game()
-		{
+		{	
+			wait();
 		
 			//game runs in here, runs while anyonewonyet returns 0, also lets the controlling entity choose to play again
 			
@@ -145,7 +148,6 @@ namespace tictactoe{
 				}
 				else
 				{
-					
 					player1 = new bot(2, false); //bot(players piece = X, ishuman = false)
 					player2 = new bot(1, false); //bot(players piece = O, ishuman = false)
 				}
@@ -187,9 +189,8 @@ namespace tictactoe{
 			}
 			else	//somehow humans are fucked up
 			{
-				cout << "OMG OMG OMG, somehow you managed to break it" << endl;
+				cout << "OMG OMG OMG, somehow you managed to break something" << endl;
 				exit(EXIT_FAILURE);	//exits program
-				
 			}
 			
 			//prints out who starts
@@ -202,8 +203,7 @@ namespace tictactoe{
 			z = player2->getdifficulty();
 			cout << "player2: playernumber,playerpiece,difficulty: " << x << ",["<< y << "]," << z << endl;
 			
-			//check wether to wait() or not before game starts
-			wait();//might wait here
+			wait();
 			
 			//the actual game loop stuff starts here, sorry
 			board.printboard();

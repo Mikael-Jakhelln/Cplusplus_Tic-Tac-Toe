@@ -8,8 +8,8 @@
 - what kind of player it is, gets coordinates to place on the board
 #####game.cpp 
 - brings everything together to play
-#####play_tictactoe.cpp 
-- runs the tic-tac-toe
+#####tictactoe.cpp 
+- just runs the tic-tac-toe
 
 ______________________________
 #Class descriptions

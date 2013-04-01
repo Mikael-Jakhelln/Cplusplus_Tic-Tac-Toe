@@ -1,12 +1,12 @@
 
-all: classes	
-	g++ blackjack.cpp class*.o -o blackjack
+all:
+	g++ -c play_tictactoe.cpp -o play_tictactoe.o
+	@echo "g++ play_tictactoe.cpp -o play_tictactoe.o"
+	@echo "run tictactoe with ./tictactoe.o"
+	
+clean:
+	rm  play_tictactoe.o
+	
 
-classes:
-	g++ -c class*.cpp
 
-game: gambler
-	g++ -c class_game.cpp -o class_game.o
 
-gambler: 
-	g++ -c class_gambler.cpp -o class_gambler.o

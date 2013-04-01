@@ -43,3 +43,5 @@ Følgende gjelder:
 - skrive om game() så det funker med nytt namespace og nye klasser.
 - game.cpp->Game()  Fungerer hvem som starter først riktig?
 - Bot vs noen annens ai
+- Make Kompilering, husk echo med kommandoen for å kompilere
+- teste på studssh :P

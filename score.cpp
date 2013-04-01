@@ -1,3 +1,6 @@
+/* 	Written by: Mikael Jakhelln, HIOA-studentnr: s169961
+	Tic-Tac-Toe, n pieces on a row to win, with n sized gameboard.
+*/
 #include <stdio.h>
 #include <iostream>
 #include <vector>

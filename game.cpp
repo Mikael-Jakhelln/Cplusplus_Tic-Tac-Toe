@@ -90,7 +90,7 @@ namespace tictactoe{
 		
 		void wait()	//waiting for 1 second, so the user can follow bot vs bot games
 		{
-			if(willwait = true) //waits only if willwait is true
+			if(willwait == true) //waits only if willwait is true
 			{
 				cout <<"waiting so the USER! can see whats happening!"<<endl<<endl;
 				clock_t temp;
@@ -123,7 +123,7 @@ namespace tictactoe{
 			//choose who to start
 			srand(time(NULL));//seed random from system time
 			int whostarts = (rand() %2)+1; //pick random number between 1 and 2
-			cout << "Whostarts: Player" << whostarts << endl;
+			//cout << "DEBUG: game: Whostarts: Player" << whostarts << endl;
 			
 			int humans = 0; //initializes humans to 0 by default
 			cout << "Choose number of humans players: ";
@@ -196,19 +196,19 @@ namespace tictactoe{
 			}
 			
 			//prints out who starts
+			//cout << "Whostarts: Player" << whostarts << endl;
 			int  x = player1->getplayernumber();
 			char y = player1->getplayerpiece();
 			int z = player1->getdifficulty();
-			cout << "player1: playernumber,playerpiece,difficulty: " << x<< ",[" << y << "],"<< z <<endl;
+			cout << "player1: playernumber,playerpiece,difficulty: " << x << ",[" << y << "],"<< z <<endl;
 			x = player2->getplayernumber(); 
 			y = player2->getplayerpiece();
 			z = player2->getdifficulty();
 			cout << "player2: playernumber,playerpiece,difficulty: " << x << ",["<< y << "]," << z << endl;
 			
-			wait();	//might wait here
-			
 			//the actual game loop stuff starts here, sorry
 			board.printboard();
+			wait();	//might wait here
 			int gameover = 0;	//used to check the gamestate, at the start of the game, nobody has won yet.
 			while(gameover == 0)
 			{
@@ -224,22 +224,22 @@ namespace tictactoe{
 					{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						//cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
 						Xmove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
-						thisplayer = player1;
+						thisplayer = player2;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player2: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						//cout << "DEBUG: game(): player2: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
 						Xmove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					if(Xmove == false) cout << "DEBUG: game: Xmove == false" << endl; //the bot doesnt need to see this
 				}
 				//end of playerX's turn
 				
-				wait();	//might wait here
 				board.printboard(); //prints the gameboard
+				wait();	//might wait here
 				//check score
 				gameover = score1.anybodywinyet(size, board.board);
 				if(gameover != 0) break; //if somebody won, or its a draw, break this while loop
@@ -254,14 +254,14 @@ namespace tictactoe{
 					{
 						thisplayer = player1;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						//cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
 						Omove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					else //player2.playernumber == 2
 					{
-						thisplayer = player1;
+						thisplayer = player2;
 						coords = thisplayer->getcoords(size, board.board); //gets some coords from the bot
-						cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
+						//cout << "DEBUG: game(): player1: playerpiece,row,col are: "<< thisplayer->getplayerpiece() << "," << coords[0] << "," << coords[1]<<endl;
 						Omove = board.makemove(thisplayer->getplayernumber(), coords[0], coords[1]);
 					}
 					if(Omove == false) cout << "DEBUG: game: Omove == false" << endl; //the bot doesnt need to see this

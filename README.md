@@ -29,4 +29,15 @@ Følgende gjelder:
 
 - Ekstra (frivillig) utfordring: lag programmet ditt slik at du kan sette maskinen til å spille mot seg selv - eller til å spille mot en annens strategi, og la det være mulig å vise spillet i sakte film i terminalen, slik at man som bruker kan følge med. Sett gjerne ditt program til å spille mot en medstudent sitt - da må dere bli enige om en api. OBS: Dersom du gjør dette, si fra!
 
+###Ferdig
+	- Gameboard, scaler fint uansett størrelse. har testet med 100x100.
+	- Score, virker som det fungerer fint, har testet med 20x20. 
+	- Human vs Human, funker
+	- Human vs Bot, funker
+	- Bot vs Bot, funker
+
 ###To-Do:
+
+- skrive om game() så det funker med nytt namespace og nye klasser.
+- game.cpp->Game()  Fungerer hvem som starter først riktig?
+- Bot vs noen annens ai

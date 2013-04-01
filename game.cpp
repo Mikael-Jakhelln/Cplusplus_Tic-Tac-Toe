@@ -129,11 +129,11 @@ namespace tictactoe{
 			}
 			
 			//initialize gameboard, and make objects for players
-			gameboard gameboard1 = gameboard(size); //this is the gameboard, initialized to the chosen size.
+			gameboard board = gameboard(size); //this is the gameboard, initialized to the chosen size.
 			score score1 = score(); //check score with this with 
-			player player1;//two players, will be initialized once the almighty user has chosen number of human players
-			player player2;
-
+			player * player1 = new human(1, true);//two players, will be initialized once the almighty user has chosen number of human players
+			player * player2 = new human(2, true);
+			
 			//choose who to start
 			srand(time(NULL));//seed random from system time
 			int whostarts = (rand() %2)+1; //pick random number between 1 and 2
@@ -149,7 +149,7 @@ namespace tictactoe{
 			}
 			cout << "Human players: " << humans << endl;
 			//init players
-			
+			/*
 			if(humans == 0) //two bots, MACHINE SHOWDOWN FTW!
 			{
 				willwait = true;	//wait between turns
@@ -205,20 +205,22 @@ namespace tictactoe{
 				exit(EXIT_FAILURE);	//exits program
 				
 			}
-
+			*/
 			//prints out who starts
-			int  x = player1.getplayernumber();
-			char y = player1.getplayerpiece();
-			cout << "player1: playernumber,playerpiece: " << x<< ",[" << y << "]"<<endl;
-			x = player2.getplayernumber(); 
-			y = player2.getplayerpiece();
-			cout << "player2: playernumber,playerpiece: " << x << ",["<< y << "]"<< endl;
+			int  x = player1->getplayernumber();
+			char y = player1->getplayerpiece();
+			int z = player1->getdifficulty();
+			cout << "player1: playernumber,playerpiece,difficulty: " << x<< ",[" << y << "],"<< z <<endl;
+			x = player2->getplayernumber(); 
+			y = player2->getplayerpiece();
+			z = player2->getdifficulty();
+			cout << "player2: playernumber,playerpiece,difficulty: " << x << ",["<< y << "]," << z << endl;
 			
 			//check wether to wait() or not before game starts
 			wait();//might wait here
 			
 			//the actual game loop stuff starts here, sorry
-			gameboard1.printboard();
+			board.printboard();
 			int gameover = 0;	//used to check the gamestate, at the start of the game, nobody has won yet.
 			while(gameover == 0)
 			{
@@ -229,26 +231,24 @@ namespace tictactoe{
 				{
 					vector<int> coords(2); coords[0] = size+1; coords[1] = size+1; //temp vector for return values of player
 					//initd to something outside the gameboard, so it definately wont work
-					if(player1.getplayernumber() == 1)
+					if(player1->getplayernumber() == 1)
 					{
-						player thisplayer = player1;
-						coords = thisplayer.getcoords(size, gameboard1.board); //gets some coords from the bot
+						coords = player1->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = gameboard1.makemove(thisplayer.getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(player1->getplayerpiece(), coords[0], coords[1]);
 						
-						if(thisplayer.ishuman())
+						if(player1->ishuman())
 						{
 							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
 						}
 					}
 					else //player2.playernumber == 2
 					{
-						player thisplayer = player2;
-						coords = thisplayer.getcoords(size, gameboard1.board); //gets some coords from the bot
+						coords = player2->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player2.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = gameboard1.makemove(thisplayer.getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(player2->getplayerpiece(), coords[0], coords[1]);
 						
-						if(thisplayer.ishuman())
+						if(player2->ishuman())
 						{
 							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
 						}
@@ -258,9 +258,9 @@ namespace tictactoe{
 				//end of playerX's turn
 				
 				wait();	//might wait here
-				gameboard1.printboard(); //prints the gameboard
+				board.printboard(); //prints the gameboard
 				//check score
-				gameover = score1.anybodywinyet(size, gameboard1.board);
+				gameover = score1.anybodywinyet(size, board.board);
 				if(gameover != 0) break; //if somebody won, or its a draw, break this while loop
 				
 				//player(O)'s turn 
@@ -268,26 +268,24 @@ namespace tictactoe{
 				while(Omove != true)
 				{
 					vector<int> coords(2); coords[0] = size+1; coords[1] = size+1; //initialized to something outside the gameboard..	
-					if(player1.getplayernumber() == 2)
+					if(player1->getplayernumber() == 2)
 					{
-						player thisplayer = player1;
-						coords = thisplayer.getcoords(size, gameboard1.board); //gets some coords from the bot
+						coords = player1->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = gameboard1.makemove(thisplayer.getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(player1->getplayerpiece(), coords[0], coords[1]);
 						
-						if(thisplayer.ishuman())
+						if(player1->ishuman())
 						{
 							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
 						}
 					}
 					else //player2.playernumber == 2
 					{
-						player thisplayer = player2;
-						coords = thisplayer.getcoords(size, gameboard1.board); //gets some coords from the bot
+						coords = player2->getcoords(size, board.board); //gets some coords from the bot
 						cout << "DEBUG: game(): player1.getcoords are: "<< coords[0] << "," << coords[1]<<endl;
-						Xmove = gameboard1.makemove(thisplayer.getplayerpiece(), coords[0], coords[1]);
+						Xmove = board.makemove(player2->getplayerpiece(), coords[0], coords[1]);
 						
-						if(thisplayer.ishuman())
+						if(player2->ishuman())
 						{
 							if(Xmove == false) cout << "invalid coordinates, spot is already taken, choose another" << endl;
 						}
@@ -296,11 +294,11 @@ namespace tictactoe{
 				//end of playerO's turn
 				wait(); //might wait here
 					
-				gameboard1.printboard(); //prints the gameboard
-				gameover = score1.anybodywinyet(size, gameboard1.board);
+				board.printboard(); //prints the gameboard
+				gameover = score1.anybodywinyet(size, board.board);
 				if(gameover != 0) break; //if somebody won, or its a draw, break this while loop
 			}
-			gameover = score1.anybodywinyet(size, gameboard1.board); //the result of the game
+			gameover = score1.anybodywinyet(size, board.board); //the result of the game
 			if(gameover == 1){cout << "player X won" << endl;}//duh!
 			if(gameover == 2){cout << "player O won" << endl;}//duh!
 			if(gameover == 3){cout << "its a draw, good job" << endl;}//duh!

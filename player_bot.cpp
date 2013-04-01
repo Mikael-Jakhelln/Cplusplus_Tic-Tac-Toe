@@ -32,7 +32,10 @@ namespace tictactoe{
 		
 		bool setdifficulty(int diff) //set difficulty for this bot
 		{
+			if(diff > numberofdifficulties || diff <= defaultdifficulty)
+				return false;
 			difficulty = diff;
+			return true;
 		}
 		int getdifficulty() //returns difficulty
 		{
@@ -43,15 +46,21 @@ namespace tictactoe{
 		vector<int> getcoords(int size, vector< vector<char> > board)
 		{
 			//this should analyse the gameboard, then make the best possible move :P, should also not make a move that doesnt work
-			if(difficulty == 0) //if EZ-mode: just return some random coords untill something hits. (mostly for debug)
+			if(difficulty == 1) //if EZ-mode: just return some random coords untill something hits. (mostly for debug)
 			{
 				return randommove(size);
 			}
-			else if(difficulty == 1)
+			else if(difficulty == 2)
 			{
 				return bettermove(size, board);
 			}
-			else if(difficulty < 0 || difficulty > 1 ) //difficulties above 2 are not implemented yet. insert even better algorithm here..
+			/*//to add more difficulties to a bot, make lines like this
+			else if(difficulty == 3)
+			{
+				return evenbettermove(size, board); 
+			}
+			*/
+			else //difficulties above 2 are not implemented yet. insert even better algorithm here..
 			{
 				cout << "DEBUG: bot difficulty level " << difficulty << " is not implemented! do randommove.";
 				return randommove(size);

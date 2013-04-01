@@ -12,6 +12,7 @@ namespace tictactoe{
 		private:
 		int playernumber; //playernumber, used to find who goes first in a turn.
 		char playerpiece; //this players piece, player1.playerpiece = 'X', player2.playerpiece='O'.
+		int difficulty;
 		bool human;
 		
 		//abstract class player, can be both human and bot, maybe even a networked human?
@@ -23,6 +24,7 @@ namespace tictactoe{
 		
 		player(int pn, bool humanornot) //constructor, used to initialize playernumber and playerpiece, and also if this player is human
 		{
+			difficulty = 1;
 			playernumber = pn;
 			human = humanornot;
 			if(playernumber == 1)
@@ -50,7 +52,7 @@ namespace tictactoe{
 		}
 		int getdifficulty() //returns difficulty
 		{
-			return -1;
+			return difficulty;
 		}
 		
 		int getplayernumber()	//returns playernumber
@@ -62,7 +64,7 @@ namespace tictactoe{
 			return playerpiece;
 		}
 		
-		vector<int> getcoords(int, vector< vector<char> >)//is overridden by children classes. returns  two coordinates
+		virtual/*makes player an abstract class*/ vector<int> getcoords(int, vector< vector<char> >)//this is overridden by children classes. returns  two coordinates
 		{
 			vector<int> c(2);
 			c[0] = -1;
@@ -109,21 +111,23 @@ int main()
 	vector<int> c(2);
 	
 	//test player
-	player * player0 = new test(1);
+	player * player0;
+	player0 = new test(1, false);
 	cout << "test Player 0: playernumber,playerpiece = " << player0->getplayernumber()<< "," << player0->getplayerpiece() << endl;
 	c = player0->getcoords(size, gb);
 	cout << "test Player 0. getcoords " << c[0] << "," << c[1] << endl;
 	
 	//human player
-	player * player1 = new human(1);
+	player * player1 = new human(1, true);
 	cout << "human Player 1: playernumber,playerpiece = " << player1->getplayernumber()<< "," << player1->getplayerpiece() << endl;
 	c = player1->getcoords(size, gb);
 	cout << "human Player 1. getcoords " << c[0] << "," << c[1] << endl;
 	
 	//bot player
-	player * player2 = new bot(1);
+	player * player2 = new bot(1, true);
+	player2->setdifficulty(1);
 	cout << "bot Player 2: playernumber,playerpiece = " << player2->getplayernumber()<< "," << player2->getplayerpiece() << endl;
 	c = player2->getcoords(size, gb);
 	cout << "bot Player 2. getcoords " << c[0] << "," << c[1] << endl;
-}//end of test
-*/
+}
+//end of test */

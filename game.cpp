@@ -207,8 +207,10 @@ namespace tictactoe{
 			z = player2->getdifficulty();
 			cout << "player2: playernumber,playerpiece,difficulty: " << x << ",["<< y << "]," << z << endl;
 			
+			board.printboardinfo(); //prints out the gameboard, with some additional info explaining what rows and columns are
+			
 			//the actual game loop stuff starts here, sorry
-			board.printboard();
+			
 			wait();	//might wait here
 			int gameover = 0;	//used to check the gamestate, at the start of the game, nobody has won yet.
 			while(gameover == 0)

@@ -39,7 +39,7 @@ Følgende gjelder:
 
 ###To-Do:
 - Bot vs noen annens ai
-- Make Kompilering, husk echo med kommandoen for å kompilere
+- Make Kompilering, husk echo med kommandoen for å kompilere, kompiler med "g++/c++/gcc tictactoe.cpp -o outputfileasyouwant"
 - teste på studssh :P (funker på ubuntu 12.04, så regner med det)
 - fikse player_bot.setdifficulty(int difficulty).
 - skrive ferdig bot.cpp->bettermove() algoritmene: checkrow, checkcolumn og checkdiagonal, og implementer flere vanskelighetsgrader med disse.

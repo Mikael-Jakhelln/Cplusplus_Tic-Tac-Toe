@@ -35,6 +35,22 @@ namespace tictactoe
 			}
 		}
 		
+		void printboardinfo()
+		{ //print out the gameboard, with explanations
+			std::string indent= "\t";
+			std::string row = "row";
+			
+			cout << indent;for(int j = 0; j<size; j++){cout << "___";} cout << endl;
+			cout << "Columns:";for(int j=0; j<size; j++){cout << '|'<< j;}cout << '|' << endl;
+			cout << indent;for(int j = 0; j<size; j++){cout << "+-";} cout << "+" << endl;
+			for(int i=0; i<size; i++)
+			{
+				cout << row << i+1 << indent;for(int j=0; j<size; j++){cout << '|'<< board[i][j];}cout << '|'<< endl;
+				cout << indent; for(int j = 0; j<size; j++){cout << "+-";} cout << "+" << endl;
+			}
+			cout << indent;for(int j = 0; j<size; j++){cout << "___";} cout << endl;
+		}
+		
 		void printboard()
 		{ //print out the current state of gameboard
 			for(int j = 0; j<size; j++){cout << "___";} cout << endl;

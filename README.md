@@ -34,13 +34,12 @@ Følgende gjelder:
 - Gameboard, scaler fint uansett størrelse. har testet med 100x100.
 - Score, virker som det fungerer fint, har testet med 20x20.
 - Human vs Human, funker
-- Human vs Bot, funker
-- Bot vs Bot, funker, men rakk ikke bli ferdig med bot difficulty før innleveringsfrist :(
+- Human vs Bot, funker med randomcoords. 
+- Bot vs Bot, funker med randomcoords.
 
 ###To-Do:
-- skrive om game() så det funker med nytt namespace og nye klasser.
-- game.cpp->Game()  Fungerer hvem som starter først riktig?
 - Bot vs noen annens ai
 - Make Kompilering, husk echo med kommandoen for å kompilere
-- teste på studssh :P
-- skrive ferdig bot.cpp->bettermove() algoritmen
+- teste på studssh :P (funker på ubuntu 12.04, så regner med det)
+- fikse player_bot.setdifficulty(int difficulty).
+- skrive ferdig bot.cpp->bettermove() algoritmene: checkrow, checkcolumn og checkdiagonal, og implementer flere vanskelighetsgrader med disse.

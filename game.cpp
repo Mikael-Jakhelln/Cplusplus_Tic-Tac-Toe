@@ -92,7 +92,7 @@ namespace tictactoe{
 		{
 			if(willwait == true) //waits only if willwait is true
 			{
-				cout <<"waiting so the USER! can see whats happening!"<<endl<<endl;
+				//cout <<"waiting so the USER! can see whats happening!"<<endl<<endl;
 				clock_t temp;
 				temp = clock () + 1 * CLOCKS_PER_SEC ;
 				while (clock() < temp) {}
@@ -152,10 +152,12 @@ namespace tictactoe{
 				//ask user for bot difficulty
 				cout << "set difficulty for bot " << player1->getplayerpiece() << ":";
 				bool p1diff = player1->setdifficulty(intinput());
+				cout << "DEBUG: difficulty successfully set?:"<<p1diff <<endl;
 				cout << "set difficulty for bot " << player2->getplayerpiece() << ":";
 				bool p2diff = player2->setdifficulty(intinput());
+				cout << "DEBUG: difficulty successfully set?:"<<p2diff <<endl;
 			}
-			else if(humans == 1)
+			else if(humans == 1) // human vs computer
 			{
 				willwait = false;	//dont wait between turns
 				if(whostarts == 1)//human starts as player X
@@ -172,8 +174,6 @@ namespace tictactoe{
 					cout << "set difficulty for bot " << player2->getplayerpiece() << ":";
 					bool p2diff = player2->setdifficulty(intinput());
 				}
-				//ask user for bot difficulty
-				
 			}
 			else if(humans == 2)
 			{
@@ -194,6 +194,7 @@ namespace tictactoe{
 				cout << "OMG OMG OMG, somehow you managed to break something" << endl;
 				exit(EXIT_FAILURE);	//exits program
 			}
+			
 			
 			//prints out who starts
 			//cout << "Whostarts: Player" << whostarts << endl;

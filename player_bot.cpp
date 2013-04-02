@@ -1,7 +1,6 @@
 /* 	Written by: Mikael Jakhelln, HIOA-studentnr: s169961
 	Tic-Tac-Toe, n pieces on a row to win, with n sized gameboard.
 */
-//#include "player.cpp" //used for test in this file
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -19,9 +18,18 @@ namespace tictactoe{
 		char opponentpiece;	//the opponents piece.
 		
 		public:
+		vector<int> defaultreturn;//this vector will contan the default return values of all checkmethods
+		
 		bot(int pn, bool humanornot) 
 		: player(pn, humanornot)
 		{
+			//initialize defaultreturn vector
+			defaultreturn.resize(4);
+			defaultreturn[0] = -1;
+			defaultreturn[1] = -1;
+			defaultreturn[2] = 0;
+			defaultreturn[3] = 0;
+		
 			difficulty = defaultdifficulty; //default difficulty is set to easy
 			if(getplayerpiece() == 'X')
 				opponentpiece = 'O';
@@ -31,9 +39,15 @@ namespace tictactoe{
 		}
 		
 		bool setdifficulty(int diff) //set difficulty for this bot
-		{
+		{	
+			
+			difficulty = 2; return true; //difficulty doesn't get set properly 
+			cout << "DEBUG: difficulty set to" << diff << endl;
 			if(diff > numberofdifficulties || diff <= defaultdifficulty)
+			{
+				difficulty = defaultdifficulty;
 				return false;
+			}
 			difficulty = diff;
 			return true;
 		}
@@ -45,6 +59,7 @@ namespace tictactoe{
 		
 		vector<int> getcoords(int size, vector< vector<char> > board)
 		{
+			return bettermove(size, board);
 			//this should analyse the gameboard, then make the best possible move :P, should also not make a move that doesnt work
 			if(difficulty == 1) //if EZ-mode: just return some random coords untill something hits. (mostly for debug)
 			{
@@ -88,16 +103,24 @@ namespace tictactoe{
 			if(checkempty(size, board)) 
 				return randommove(size);
 			//use checkrow, checkcol and checkdiag to find the best possible move, its also possible to have moar difficulties by cloning this with less checks
-			vector<int> a = checkrow(size, board);
-			if(a[0] == -1 && a[1] == -1 && a[2] == size && a[3] == -1)
+			vector<int> bestmove = defaultreturn;
+			vector< vector<int> > allchecks(3);	//for iterating through them in a for
+			vector<int> bestrow = checkallrows(size, board); allchecks[0] = bestrow;
+			/*
+			vector<int> bestcolumn = checkallcolumns(size, board); allchecks[1] = bestrow;
+			vector<int> bestdiagonal = checkalldiagonals(size, board); allchecks[2] = bestrow;
+			
+			for(int i=0;i<3;i++)//loop through all the best moves for rows, columns and diagonals
 			{
-				cout << "DEBUG: player._bot.checrow couldnt find a move, maybe all rows are a draw" << endl;
+				vector<int> thismove = allchecks[i];	//temp move is the first move in allchecks
+				if(thismove[2] > bestmove[2])			//if thismove is better, (this player has more pieces in sequence)
+					bestmove = thismove;				//thismove is now the best, loop through the rest, and you have the best possible move
 			}
-			vector<int> c(2); //returnvector
-			c[0]=a[0];	//sets row
-			c[1]=a[1];	//sets column
-			cout << "DEBUG: player_bot.bettermove = " << c[0] << "," << c[1] << endl;
-			return c;
+			*/
+			/*DEBUG test*/bestmove = bestrow;
+			if(bestmove[2] > defaultreturn[2])
+				return bestmove;
+			return randommove(size);//just in case it cant find any good moves
 		}
 		bool checkempty(int size, vector< vector<char> > board)
 		{
@@ -112,177 +135,268 @@ namespace tictactoe{
 			return true; //the board is empty
 		}
 		
-		vector<int> checkrow(int n, vector< vector<char> > gb)
-		{ 
-			// check the rows and return a vector of ints.
-			// the two first two ints [0] and [1] are the proposed coordinates, [0] is the row and [1] is the column
-			// the third [2] is moves left to win/lose
-			// the fourth [3] int is treated as a boolean, 0 means moves left to loss, 1 means moves left to win
-			vector<int> returnvalues(4); // vector contains returnvalues are initialized to values that will not cause problems in the loop below.
-			returnvalues[0] = -1;//row outside the gameboard
-			returnvalues[1] = -1;//column outside the gameboard
-			returnvalues[2] = n;//moves left to win
-			returnvalues[3] = -1;//win/lose, init to something wrong, should be changed to 0 or 1 in the loop anyways
-			int movestowin = n; //to win on a 3x3 board, you need 3 pieces in a row, same number for a loss
-			int movestoloss = n; //moves left to win/lose starts at the needed number of pieces in a row aka gamebord size.
-			int row = 0; //used to count 
-			for(int x=0; x<n; x++) //loops trough all rows
+		vector<int> checkrow(int n, vector< vector<char> > gb, int row) //check single row
+		{	//returnvector has 4 values [0]=row, [1]=column, [2]=number of pieces, [3]=advantage/disadvantage 
+			vector<int> out(4); out[0]=-1; out[1]=-1; out[2]=0; out[3]=0;
+			int o=0;	//count number of O and X
+			int x=0;
+			for(int i=0; i<n; i++)	//loop trough row and count
 			{
-				movestowin = n; //reset movesleft counters for each row
-				movestoloss = n;
-				for(int y=0; y<n; y++) //loops trough all values in that row
+				char c = gb[row][i];  //get current piece
+				if(c == 'O')	//check what piece it is
+					o++;		//increase counter
+				else if(c == 'X')
+					x++;
+			}
+			if(o=x)	//same count, this if might be reduntant, since we return 
+			{
+				return out; //return no advantage
+			}
+			else if(x>o) //advantage X
+			{
+				if(getplayerpiece() == 'X')
 				{
-					if(gb[x][y] == getplayerpiece()) //counts moves left untill win for that row
-						movestowin--;
-					else if(gb[x][y] == opponentpiece) //counts moves left untill loss for that row
-						movestoloss--;
-					
-				}//now we know how many moves the bot and the opponent have left to win the game.
-				cout << "DEBUG: bot.bettermove: row,movestowin,movestolose = "<< x << "," << movestowin << "," << movestoloss << endl;
-				bool rowisdraw = false; //find out if the row is a draw.
-				if(movestowin < n && movestoloss < n) //if both players have set some pieces in this row, the row is a draw
-					rowisdraw=true;
-				if(!rowisdraw)//if the row isnt a draw, chekc who is close to win, the bot or the opponent
-				{
-					//now we know if we are closer to a win or a loss on that row
-					if(movestowin < returnvalues[2]) //closer to win than last closest to win/lose
+					out[3]=1;//bot has advantage
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
 					{
-						returnvalues[0] = x;
-						returnvalues[2] = movestowin;
-						returnvalues[3] = 1;
+						if(gb[row][j] == ' ')
+							out[0] = j;
 					}
-					else if(movestoloss < returnvalues[2]) //closer to lose than last closest to win/lose
+				}
+				else
+				{
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
 					{
-						returnvalues[0] = x;  //sets returnrow to this row
-						returnvalues[2] = movestoloss; //sets returnmoves left untill win/lose
-						returnvalues[3] = 0;	//returnvalues [2] is how many moves left till bot loses
+						if(gb[row][j] == ' ')
+							out[0] = j;
 					}
 				}
 			}
-			//now we need to find what column to place our piece in
-			row = returnvalues[0];
-			for(int i=0; i<n; i++ )	//find the first open spot, and choose that
+			else if(x<o)
 			{
-				if(gb[row][i] == ' ')
-					returnvalues[1] = i;
-			}
-			cout << "DEBUG: bot.bettermove: returnvalues = " << returnvalues[0] << "," << returnvalues[1] << "," << returnvalues[2] << "," << returnvalues[3] << endl;
-			return returnvalues;
-		}//end of function checkrow
-		/*
-		int checkcol(int n, vector< vector<char> > gb)
-		{ //return 1 if player 1 won, 2 if player 2 won, 3 if its a draw in all columns and 0 if its nothing.
-			int xinarow = 0;
-			int oinarow = 0;
-			int colsdraw = 0;
-			for(int y=0; y<n; y++)
-			{
-				xinarow = 0;//resets score counter for each column
-				oinarow = 0;
-				for(int x=0; x<n; x++) 
+				if(getplayerpiece() == 'X')
 				{
-					if(gb[x][y] == 'X') //adds score for column
-						xinarow++;
-					else if(gb[x][y] == 'O')
-						oinarow++;
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
+					{
+						if(gb[row][j] == ' ')
+							out[0] = j;
+					}
 				}
-				if(xinarow == n) return 1;//if score per row matches boardsize, somebody won, return winner
-				if(oinarow == n) return 2;
-				if(xinarow > 0 && oinarow > 0)
-					colsdraw++; //this column is a draw
-				
+				else
+				{
+					out[3]=1;//bot has disadvantage 
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
+					{
+						if(gb[row][j] == ' ')
+							out[0] = j;
+					}
+				}
 			}
-			if(xinarow == n)	//find the winner
-				return 1;
-			else if(oinarow == n)
-				return 2;
-			if(colsdraw == n) //if all rows ended in a draw
-				return 3;
-			return 0;
+			return out;
 		}
-		*/
-		/*		
-		int checkdiagonal(int n, vector< vector<char> > gb)
-		{	//returns 1 if player 1 won, 2 if player 2 won, 3 if its a draw in both diagonals and 0 if it nothing
-			//check diagonal from top-left to bottom-right
-			int xinarow =0, oinarow=0, diagdraw = 0; // score counters and counter for diagonal draws
-			for(int i=0; i<n; i++)
+		vector<int> checkallrows(int n, vector< vector<char> > gb)//check all rows with checkrow
+		{
+			vector<int> bestrow(4); bestrow[0]=-1; bestrow[1]=-1; bestrow[2]=0; bestrow[3]=0;
+			for(int i=0;i<n;i++)
 			{
-				if(gb[i][i] == 'X')
-					xinarow++;
-				else if(gb[i][i] == 'O')
-					oinarow++;
+				vector<int> thisrow = checkrow(n, gb, i);
+				if(thisrow[2] > bestrow[2])
+				{
+					bestrow[0] = thisrow[0];
+					bestrow[1] = thisrow[1];
+					bestrow[2] = thisrow[2];
+					bestrow[3] = thisrow[3];
+				}
 			}
-			if(xinarow == n) //if score per diagonal matches boardsize, somebody won
-			{
-				cout << "DEBUG, X won on diagonal topleft-bottomright "<< endl;
-				return 1; //player X won 
-			}
-			else if(oinarow == n)
-			{
-				cout << "DEBUG, O won on diagonal topleft-bottomright "<< endl;
-				return 2; //player O won
-			}
-			if(xinarow > 0 && oinarow > 0)
-			{
-				cout << "DEBUG, Its a draw on diagonal topleft-bottomright "<< endl;
-				diagdraw++;
-			}
-			//check diagonal from bottom-left to top-right
-			xinarow=0; oinarow = 0; //resets score counters
-			int j = n-1; //starts at the rightmost position
-			for(int i=0; i<n; i++) //from top row to bottom row
-			{
-				if(gb[i][j] == 'X')
-					xinarow++;
-				else if(gb[i][j] == 'O')
-					oinarow++;
-				j--;
-			}
-			if(xinarow == n)	//if score per matches boardsize, somebody won
-			{
-				cout << "DEBUG, X won on diagonal bottomleft-topright "<< endl;
-				return 1;
-			}
-			else if(oinarow == n)
-			{
-				cout << "DEBUG, O won on diagonal bottomleft-topright "<< endl;
-				return 2;
-			}
-			if(xinarow > 0 && oinarow > 0)
-			{
-				cout << "DEBUG, Its a draw on diagonal bottomleft-topright "<< endl;
-				diagdraw++;
-			}
-				
-			if(diagdraw == 2) //if both diagonals is a draw, return 3
-			{
-				cout << "DEBUG, its a draw on both diagonals "<< endl;
-				return 3;
-			}
-
-			return 0; //meh, nothing here.
+			return bestrow;
 		}
-		*/
-
+		//end of check rows
+/*		//check columns
+		vector<int> checkcolumn(int n, vector< vector<char> > gb, int row) //check single row
+		{	//returnvector has 4 values [0]=row, [1]=column, [2]=number of pieces, [3]=advantage/disadvantage 
+			vector<int> out(4); out[0]=-1; out[1]=-1; out[2]=0; out[3]=0;
 		
+			o=0;	//count number of O and X
+			x=0;
+			for(int i=0; i<n, i++)	//loop trough row and count
+			{
+				char c = gb[row][i];  //get current piece
+				if(c == 'O')	//check what piece it is
+					o++;		//increase counter
+				else if(c == 'X')
+					x++;
+			}
+			if(o=x)	//same count, this if might be reduntant, since we return 
+			{
+				return out; //return no advantage
+			}
+			else if(x>o) //advantage X
+			{
+				if(playerpiece == 'X')
+				{
+					out[3]=1;//bot has advantage
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+				else
+				{
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+			}
+			else if(x<o)
+			{
+				if(playerpiece == 'X')
+				{
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+				else
+				{
+					out[3]=1;//bot has disadvantage 
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+			}
+			return out;
+		}
+		vector<int> checkallcolumns(int n, vector< vector<char> > gb)//check all rows with checkrow
+		{
+			vector<int> bestrow(4); bestrow[0]=-1; bestrow[1]=-1; bestrow[2]=0; bestrow[3]=0;
+			for(int i=0;i<n;i++)
+			{
+				vector<int> thisrow = checkrow(n, gb, i);
+				if(thisrow[2] > bestrow[2])
+				{
+					bestrow[0] = thisrow[0];
+					bestrow[1] = thisrow[1];
+					bestrow[2] = thisrow[2];
+					bestrow[3] = thisrow[3];
+				}
+			}
+			return bestrow;
+		}
+		//end of check columns
+		//check diagonals
+		vector<int> checkdiagonal(int n, vector< vector<char> > gb, int row) //check single row
+		{	//returnvector has 4 values [0]=row, [1]=column, [2]=number of pieces, [3]=advantage/disadvantage 
+			vector<int> out(4); out[0]=-1; out[1]=-1; out[2]=0; out[3]=0;
+		
+			o=0;	//count number of O and X
+			x=0;
+			for(int i=0; i<n, i++)	//loop trough row and count
+			{
+				char c = gb[row][i];  //get current piece
+				if(c == 'O')	//check what piece it is
+					o++;		//increase counter
+				else if(c == 'X')
+					x++;
+			}
+			if(o=x)	//same count, this if might be reduntant, since we return 
+			{
+				return out; //return no advantage
+			}
+			else if(x>o) //advantage X
+			{
+				if(playerpiece == 'X')
+				{
+					out[3]=1;//bot has advantage
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+				else
+				{
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+			}
+			else if(x<o)
+			{
+				if(playerpiece == 'X')
+				{
+					out[3]=-1;//bot has disadvantage 
+					out[2]=o; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row, to sabotage row with
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+				else
+				{
+					out[3]=1;//bot has disadvantage 
+					out[2]=x; //number of pieces on this row
+					out[1]=row; //on this row
+					for(int j=0;j<n;j++)//now find a free spot on this row
+					{
+						if(gb[row][i] == ' ')
+							out[0] = i;
+					}
+				}
+			}
+			return out;
+		}
+		vector<int> checkalldiagonals(int n, vector< vector<char> > gb)//check all rows with checkrow
+		{
+			vector<int> bestrow(4); bestrow[0]=-1; bestrow[1]=-1; bestrow[2]=0; bestrow[3]=0;
+			for(int i=0;i<n;i++)
+			{
+				vector<int> thisrow = checkrow(n, gb, i);
+				if(thisrow[2] > bestrow[2])
+				{
+					bestrow[0] = thisrow[0];
+					bestrow[1] = thisrow[1];
+					bestrow[2] = thisrow[2];
+					bestrow[3] = thisrow[3];
+				}
+			}
+			return bestrow;
+		}
+		//end of check diagonals
+		//*/
 	}; //end of classdefinition bot
 }//end of namespace tictactoe
-
-//testmain
-// moar testing needed!
-/*
-using namespace tictactoe;
-int main()
-{
-	//initialiser en player av type human, init playervariabler, og test getcoords
-	player * player1 = new bot(1);
-	
-	cout << "Player 1: playernumber,playerpiece = " << player1->getplayernumber()<< "," << player1->getplayerpiece() << endl;
-	int size = 3;
-	vector< vector<char> > gb;
-	vector<int> c = player1->getcoords(size, gb);
-	cout << "Player 1. getcoords " << c[0] << "," << c[1] << endl;
-	
-}
-*/

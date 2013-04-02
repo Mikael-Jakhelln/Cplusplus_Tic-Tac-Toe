@@ -100,15 +100,15 @@ namespace tictactoe{
 }//end of namespace tictactoe
 
 //player test, works as it is supposed to 
-//make a non abstract test player
 /*
+#include "gameboard.cpp"
 using namespace std;
 using namespace tictactoe;
 int main()
 {
 	//initialize the two parameters needed, and something to keep the return values in
 	int size = 3;
-	vector< vector<char> > gb;
+	gameboard gb = gameboard(size);
 	vector<int> c(2);
 	
 	//test player
@@ -118,15 +118,16 @@ int main()
 	c = player0->getcoords(size, gb);
 	cout << "test Player 0. getcoords " << c[0] << "," << c[1] << endl;
 	
+	
 	//human player
 	player * player1 = new human(1, true);
 	cout << "human Player 1: playernumber,playerpiece = " << player1->getplayernumber()<< "," << player1->getplayerpiece() << endl;
 	c = player1->getcoords(size, gb);
 	cout << "human Player 1. getcoords " << c[0] << "," << c[1] << endl;
 	
-	//bot player
+	//bot player with difficulty 2
 	player * player2 = new bot(1, true);
-	player2->setdifficulty(1);
+	player2->setdifficulty(2);
 	cout << "bot Player 2: playernumber,playerpiece = " << player2->getplayernumber()<< "," << player2->getplayerpiece() << endl;
 	c = player2->getcoords(size, gb);
 	cout << "bot Player 2. getcoords " << c[0] << "," << c[1] << endl;

@@ -98,7 +98,7 @@ namespace tictactoe{
 		}
 
 		vector<int> bettermove(int size, vector< vector<char> > board)
-		{	///*REMOVE THIS WHEN CHECKS WORK*/return randommove(size);
+		{	/*REMOVE THIS WHEN CHECKS WORK*/return randommove(size);
 			//first check for empty gameboard
 			if(checkempty(size, board) == false) 
 				return randommove(size);

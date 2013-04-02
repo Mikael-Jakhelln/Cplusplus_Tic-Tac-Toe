@@ -119,7 +119,11 @@ namespace tictactoe{
 			*/
 			/*DEBUG test*/bestmove = bestrow;
 			if(bestmove[2] > defaultreturn[2])
-				return bestmove;
+			{
+				vector<int>c(2);
+				c[0] = bestmove[0];
+				c[1] = bestmove[0];
+			}
 			return randommove(size);//just in case it cant find any good moves
 		}
 		bool checkempty(int size, vector< vector<char> > board)

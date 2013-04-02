@@ -12,6 +12,7 @@ namespace tictactoe
 	class gameboard
 	{
 		public: //was originally one big file, rewrote to several classes for easier reading, hence everything is public :/
+		bool isempty = false;
 		int size; //gameboard size
 		vector< vector<char> > board; //2D array(vector) for gameboard
 		

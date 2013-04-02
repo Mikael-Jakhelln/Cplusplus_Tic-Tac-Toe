@@ -98,9 +98,9 @@ namespace tictactoe{
 		}
 
 		vector<int> bettermove(int size, vector< vector<char> > board)
-		{	/*REMOVE THIS WHEN CHECKS WORK*/return randommove(size);
+		{	///*REMOVE THIS WHEN CHECKS WORK*/return randommove(size);
 			//first check for empty gameboard
-			if(checkempty(size, board)) 
+			if(board.isempty == false) 
 				return randommove(size);
 			//use checkrow, checkcol and checkdiag to find the best possible move, its also possible to have moar difficulties by cloning this with less checks
 			vector<int> bestreturn = defaultreturn;

@@ -41,14 +41,14 @@ namespace tictactoe
 			std::string row = "row";
 			
 			cout << indent;for(int j = 0; j<size; j++){cout << "___";} cout << endl;
-			cout << "Columns:";for(int j=0; j<size; j++){cout << '|'<< j;}cout << '|' << endl;
+			cout << "Columns:";for(int j=0; j<size; j++){cout << '|'<< j+1;}cout << '|' << endl;
 			cout << indent;for(int j = 0; j<size; j++){cout << "+-";} cout << "+" << endl;
 			for(int i=0; i<size; i++)
 			{
 				cout << row << i+1 << indent;for(int j=0; j<size; j++){cout << '|'<< board[i][j];}cout << '|'<< endl;
 				cout << indent; for(int j = 0; j<size; j++){cout << "+-";} cout << "+" << endl;
 			}
-			cout << indent;for(int j = 0; j<size; j++){cout << "___";} cout << endl;
+			for(int j = 0; j<size; j++){cout << "____";} cout << endl;
 		}
 		
 		void printboard()

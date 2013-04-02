@@ -98,12 +98,12 @@ namespace tictactoe{
 		}
 
 		vector<int> bettermove(int size, vector< vector<char> > board)
-		{	
+		{	/*REMOVE THIS WHEN CHECKS WORK*/return randommove(size);
 			//first check for empty gameboard
 			if(checkempty(size, board)) 
 				return randommove(size);
 			//use checkrow, checkcol and checkdiag to find the best possible move, its also possible to have moar difficulties by cloning this with less checks
-			vector<int> bestmove = defaultreturn;
+			vector<int> bestreturn = defaultreturn;
 			vector< vector<int> > allchecks(3);	//for iterating through them in a for
 			vector<int> bestrow = checkallrows(size, board); allchecks[0] = bestrow;
 			/*
@@ -117,12 +117,13 @@ namespace tictactoe{
 					bestmove = thismove;				//thismove is now the best, loop through the rest, and you have the best possible move
 			}
 			*/
-			/*DEBUG test*/bestmove = bestrow;
-			if(bestmove[2] > defaultreturn[2])
+			/*DEBUG test*/bestreturn = bestrow;
+			if(bestreturn[2] > defaultreturn[2])
 			{
 				vector<int>c(2);
-				c[0] = bestmove[0];
-				c[1] = bestmove[0];
+				c[0] = bestreturn[0];
+				c[1] = bestreturn[1];
+				return c;
 			}
 			return randommove(size);//just in case it cant find any good moves
 		}
